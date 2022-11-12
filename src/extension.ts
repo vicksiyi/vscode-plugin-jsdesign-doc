@@ -12,8 +12,8 @@ export function activate(context: vscode.ExtensionContext) {
 		? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
 
 	// Samples of `window.registerTreeDataProvider`
-	const nodeDependenciesProvider = new DepNodeProvider(rootPath);
-	vscode.window.registerTreeDataProvider('nodeDependencies', nodeDependenciesProvider);
+	const jsDesignDocProvider = new DepNodeProvider(rootPath);
+	vscode.window.registerTreeDataProvider('jsDesignDocProvider', jsDesignDocProvider);
 	vscode.commands.registerCommand('extension.openDoc', (docPath: string, title: string) => {
 		const _filename = docPath.split("/").splice(-4, 4).join('') + SUFFIX;
 		const _docFilePath = path.join(__filename, '..', '..', 'resources', 'doc', _filename);

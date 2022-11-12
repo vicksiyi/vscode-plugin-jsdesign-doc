@@ -17,7 +17,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:nodeDependencies"
+    "onView:jsDesignDocProvider"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -40,7 +40,7 @@
       ],
       "package-explorer": [
         {
-          "id": "nodeDependencies",
+          "id": "jsDesignDocProvider",
           "name": "API doc",
           "icon": "media/dep.svg",
           "contextualTitle": "即使设计API文档"
