@@ -32,7 +32,7 @@ export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 					new Dependency(_key, data[_key], vscode.TreeItemCollapsibleState.None, {
 						command: 'extension.openDoc',
 						title: '',
-						arguments: [data[_key]]
+						arguments: [data[_key], _key]
 					})
 					:
 					new Dependency(_key, data[_key], vscode.TreeItemCollapsibleState.Collapsed);
