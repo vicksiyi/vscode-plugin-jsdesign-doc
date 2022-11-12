@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { markdown } from "markdown";
+import { marked } from 'marked';
 import { DepNodeProvider } from './rootHandler';
 
 const SUFFIX = '.md';
@@ -38,19 +38,18 @@ class APIDocPanel {
 			: undefined;
 		// 如果已经存在，则直接显示
 		if (APIDocPanel.currentPanel) {
-			APIDocPanel.currentPanel._title = title;
 			APIDocPanel.currentPanel._content = content;
 			APIDocPanel.currentPanel._update();
 			APIDocPanel.currentPanel._panel.reveal(column);
 			return;
 		}
 
-		// Otherwise, create a new panel.
+		// 如果不存在，则创建一个新的webview
 		const panel = vscode.window.createWebviewPanel(
 			APIDocPanel.viewType,
-			title,
+			'即时设计API文档',
 			column || vscode.ViewColumn.One,
-			getWebviewOptions(extensionUri),
+			getWebviewOptions(extensionUri)
 		);
 
 		APIDocPanel.currentPanel = new APIDocPanel(panel, extensionUri, title, content);
@@ -87,13 +86,12 @@ class APIDocPanel {
 
 	private _update() {
 		const webview = this._panel.webview;
-		this._panel.title = this._title;
 		webview.html = this._getHtmlForWebview();
 	}
 
 	private _getHtmlForWebview() {
 		const content = this._content;
-		const html = markdown.toHTML(content);
+		const html = marked.parse(content);
 		return html;
 	}
 }

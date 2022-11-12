@@ -63,13 +63,12 @@
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "eslint": "^8.26.0",
-    "markdown": "^0.5.0",
     "typescript": "^4.8.4"
   },
   "dependencies": {
     "ftp": "^0.3.10",
     "jsonc-parser": "^0.4.2",
-    "markdown": "^0.5.0",
+    "marked": "^4.2.2",
     "minimist": "^1.2.6",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2"

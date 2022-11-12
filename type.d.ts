@@ -1,1 +1,1 @@
-declare module 'markdown';
+declare module 'marked';
