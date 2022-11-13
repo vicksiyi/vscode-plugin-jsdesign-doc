@@ -1,5 +1,8 @@
 (function () {
 	const vscode = acquireVsCodeApi();
+	window.onload = () => {
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
+	}
 	// 代码高亮
 	hljs.highlightAll();
 
