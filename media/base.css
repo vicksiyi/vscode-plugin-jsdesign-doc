@@ -194,6 +194,32 @@ a:focus {
 	outline: 0;
 }
 
+.copy_container {
+    position: absolute;
+    right: 16px;
+    top: 20px;
+	cursor: pointer;
+}
+
+pre:hover .hljs-button {
+	display: block;
+}
+
+.hljs-button {
+    display: none;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #9999AA;
+    padding: 2px 8px;
+    margin: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 5%), 0 2px 4px rgb(0 0 0 / 5%);
+}
+
 /*
 使用了Monokai Sublime的黑色主题皮肤，但是还存在样式冲突，需要自己修改
 这个样式只适合使用makedown编写的博客

@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import { DepNodeProvider } from './rootHandler';
 
 const SUFFIX = '.md';
+const openDocCommand = 'extension.openDoc';
 
 export function activate(context: vscode.ExtensionContext) {
 	const rootPath = (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 0))
@@ -14,12 +15,12 @@ export function activate(context: vscode.ExtensionContext) {
 	// Samples of `window.registerTreeDataProvider`
 	const jsDesignDocProvider = new DepNodeProvider(rootPath);
 	vscode.window.registerTreeDataProvider('jsDesignDocProvider', jsDesignDocProvider);
-	vscode.commands.registerCommand('extension.openDoc', (docPath: string, title: string) => {
+	vscode.commands.registerCommand(openDocCommand, (docPath: string) => {
 		const _filename = docPath.split("/").splice(-4, 4).join('') + SUFFIX;
 		const _docFilePath = path.join(__filename, '..', '..', 'resources', 'doc', _filename);
 		const _docContent = fs.readFileSync(_docFilePath, 'utf-8');
 		// 显示webview
-		APIDocPanel.createOrShow(context.extensionUri, title, _docContent);
+		APIDocPanel.createOrShow(context.extensionUri, _docContent);
 	});
 }
 
@@ -27,12 +28,11 @@ class APIDocPanel {
 	public static currentPanel: APIDocPanel | undefined;
 	public static readonly viewType = 'jsDesign.APIDoc';
 	private readonly _panel: vscode.WebviewPanel;
-	private _title: string;
 	private _content: string;
 	private readonly _extensionUri: vscode.Uri;
 	private _disposables: vscode.Disposable[] = [];
 
-	public static createOrShow(extensionUri: vscode.Uri, title: string, content: string) {
+	public static createOrShow(extensionUri: vscode.Uri, content: string) {
 		const column = vscode.window.activeTextEditor
 			? vscode.window.activeTextEditor.viewColumn
 			: undefined;
@@ -52,13 +52,12 @@ class APIDocPanel {
 			getWebviewOptions(extensionUri)
 		);
 
-		APIDocPanel.currentPanel = new APIDocPanel(panel, extensionUri, title, content);
+		APIDocPanel.currentPanel = new APIDocPanel(panel, extensionUri, content);
 	}
 
-	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, title: string, content: string) {
+	private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, content: string) {
 		this._panel = panel;
 		this._extensionUri = extensionUri;
-		this._title = title;
 		this._content = content;
 
 		// 设置webview显示内容
@@ -67,6 +66,24 @@ class APIDocPanel {
 		// 监听可视状态
 		this._panel.onDidChangeViewState(
 			e => { if (this._panel.visible) { this._update(); } },
+			null,
+			this._disposables
+		);
+
+		// 监听消息
+		this._panel.webview.onDidReceiveMessage(
+			message => {
+				switch (message?.command) {
+					case 'tips-success':
+						vscode.window.showInformationMessage(message?.text);
+						return;
+					case 'tips-error':
+						vscode.window.showErrorMessage(message?.text);
+						return;
+					case 'navigate':
+						this._navigateHandler(message?.url);
+				}
+			},
 			null,
 			this._disposables
 		);
@@ -128,6 +145,11 @@ class APIDocPanel {
 			</html>
 		`;
 		return html;
+	}
+
+	private _navigateHandler(url: string) {
+		if (url.startsWith('/developer-doc')) vscode.commands.executeCommand(openDocCommand, url);
+		else vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
 	}
 }
 
