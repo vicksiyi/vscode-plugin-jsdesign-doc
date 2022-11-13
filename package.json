@@ -3,7 +3,7 @@
   "displayName": "jsDesign API doc",
   "description": "即时设计API文档",
   "icon": "jsdoc.png",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "ZeroIce",
   "private": false,
   "license": "MIT",
