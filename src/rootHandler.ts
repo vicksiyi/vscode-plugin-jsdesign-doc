@@ -20,11 +20,6 @@ export class DepNodeProvider implements vscode.TreeDataProvider<Dependency> {
 	}
 
 	getChildren(element?: Dependency): Thenable<Dependency[]> {
-		if (!this.workspaceRoot) {
-			vscode.window.showInformationMessage('当前根目录为空');
-			return Promise.resolve([]);
-		}
-
 		if (element) {
 			const { data } = element;
 			let _docKeys = Object.keys(data) ?? [];
