@@ -18,10 +18,25 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:jsDesignDocProvider"
+    "onView:jsDesignDocProvider",
+    "onCommand:jsDesignAPI.search"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "jsDesignAPI.search",
+        "title": "Search JsDesign API"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "jsDesignAPI.search",
+        "key": "ctrl+j ctrl+s",
+        "mac": "cmd+j cmd+s",
+        "when": "!terminalFocus"
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {

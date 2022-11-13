@@ -4,26 +4,49 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 import { marked } from 'marked';
 import { DepNodeProvider } from './rootHandler';
+import { searchFiles } from './search';
+import { doc, fileNameHandler, generateSearchContent, getDocFlat } from './common';
 
-const SUFFIX = '.md';
 const openDocCommand = 'extension.openDoc';
+const searchCommand = 'jsDesignAPI.search';
 
 export function activate(context: vscode.ExtensionContext) {
 	const rootPath = (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 0))
 		? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
 
-		
+
 	const jsDesignDocProvider = new DepNodeProvider(rootPath);
 	const registerTreeDataProvider = vscode.window.registerTreeDataProvider('jsDesignDocProvider', jsDesignDocProvider);
 	const registerCommandOpenDoc = vscode.commands.registerCommand(openDocCommand, (docPath: string) => {
-		const _filename = docPath.split("/").splice(-4, 4).join('') + SUFFIX;
+		const _filename = fileNameHandler(docPath);
 		const _docFilePath = path.join(__filename, '..', '..', 'resources', 'doc', _filename);
 		const _docContent = fs.readFileSync(_docFilePath, 'utf-8');
 		// 显示webview
 		APIDocPanel.createOrShow(context.extensionUri, _docContent);
 	});
+	// 搜索文档
+	const registerCommandSearch = vscode.commands.registerCommand(searchCommand, () => {
+		const searchOptions: vscode.InputBoxOptions = {
+			title: '即时设计-API文档',
+			placeHolder: '搜索关键词',
+			prompt: '*Required',
+		};
+		vscode.window.showInputBox(searchOptions).then((searchQuery: string | undefined) => {
+			if (!searchQuery) return;
+			const _files = searchFiles(searchQuery);
+			const _docFlat = getDocFlat();
+			const _searchResult: keyStrAndValStr = {};
+			// 符合条件的文档名称
+			const _keys = (Object.keys(_docFlat) ?? []).filter(_key => _files.includes(fileNameHandler(_docFlat[_key])));
+			_keys.forEach(_key => _searchResult[_key] = _docFlat[_key]);
+			const mdResult = generateSearchContent(_searchResult);
+			// 显示webview
+			APIDocPanel.createOrShow(context.extensionUri, mdResult);
+		})
+	})
 	context.subscriptions.push(registerTreeDataProvider);
 	context.subscriptions.push(registerCommandOpenDoc);
+	context.subscriptions.push(registerCommandSearch);
 }
 
 class APIDocPanel {
