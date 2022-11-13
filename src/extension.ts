@@ -14,14 +14,16 @@ export function activate(context: vscode.ExtensionContext) {
 
 		
 	const jsDesignDocProvider = new DepNodeProvider(rootPath);
-	vscode.window.registerTreeDataProvider('jsDesignDocProvider', jsDesignDocProvider);
-	vscode.commands.registerCommand(openDocCommand, (docPath: string) => {
+	const registerTreeDataProvider = vscode.window.registerTreeDataProvider('jsDesignDocProvider', jsDesignDocProvider);
+	const registerCommandOpenDoc = vscode.commands.registerCommand(openDocCommand, (docPath: string) => {
 		const _filename = docPath.split("/").splice(-4, 4).join('') + SUFFIX;
 		const _docFilePath = path.join(__filename, '..', '..', 'resources', 'doc', _filename);
 		const _docContent = fs.readFileSync(_docFilePath, 'utf-8');
 		// 显示webview
 		APIDocPanel.createOrShow(context.extensionUri, _docContent);
 	});
+	context.subscriptions.push(registerTreeDataProvider);
+	context.subscriptions.push(registerCommandOpenDoc);
 }
 
 class APIDocPanel {
