@@ -1,0 +1,291 @@
+body {
+	padding: 24px;
+}
+
+.vscode-dark h1,
+.vscode-dark p {
+	color: rgba(255, 255, 255, 1);
+}
+
+.vscode-light h1,
+.vscode-light p {
+	color: rgba(36, 48, 66, 1);
+}
+
+p:not(.warn) {
+	opacity: 0.8;
+	font-size: 16px;
+	line-height: 27.71px;
+}
+
+.warn:not(b) {
+	height: auto;
+	background-color: rgb(243, 247, 251);
+	margin-top: 22px;
+	margin-bottom: 22px;
+	padding: 24px;
+	border-radius: 8px;
+	color: rgba(36, 48, 66, 0.8);
+	font-size: 14px;
+	line-height: 22.652px;
+}
+
+.warn:not(b) b::before {
+	content: " ";
+	display: inline-block;
+	position: absolute;
+	left: 25px;
+	height: 16px;
+	width: 16px;
+	background-image: url(https://img.js.design/assets/blogs/images/1.svg);
+	background-size: 100%;
+	margin-right: 6px;
+	margin-left: 22px;
+}
+
+.warn:not(b) b {
+	display: inline-block;
+	height: 16px;
+	color: rgb(0, 145, 255);
+	font-size: 16px;
+	line-height: 16px;
+	margin-left: 22px;
+	margin-bottom: 20px;
+}
+
+h1 {
+	width: 640px;
+	min-height: 48px;
+	font-size: 32px;
+	line-height: 40px;
+	font-weight: 700;
+}
+
+h2 {
+	/* color: rgb(36, 48, 66); */
+	width: auto;
+	font-weight: 700;
+	font-size: 28px;
+	line-height: 41px;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	margin-top: 48px;
+	margin-bottom: 24px;
+}
+
+h3 {
+	width: auto;
+	/* color: rgb(36, 48, 66); */
+	font-size: 24px;
+	font-weight: 700;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	margin-top: 28px;
+	margin-bottom: 14px;
+}
+
+h4 {
+	width: auto;
+	font-size: 20px;
+	font-weight: 700;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	margin-top: 16px;
+	margin-bottom: 12px;
+}
+
+/* 解决非语言部分 */
+code {
+	margin: 0px 6px;
+	width: auto;
+	background-color: rgb(243, 247, 251);
+	border: 1px solid rgb(228, 228, 230);
+	border-radius: 0.28571429rem;
+	padding: 0px 4px;
+	color: rgb(36, 48, 66);
+	font-size: 14px;
+}
+
+table {
+	width: 100%;
+	display: inline-table;
+	margin-top: 20px;
+	table-layout: fixed;
+}
+
+table thead {
+	margin-bottom: 12px;
+	background-color: rgb(243, 247, 251);
+	padding: 12px 0;
+}
+
+table th {
+	height: 52px;
+	white-space: normal;
+	color: #272822;
+}
+
+table td {
+	color: rgb(112, 112, 112);
+	padding: 14px 0px 14px 40px;
+	vertical-align: middle;
+	width: 20px;
+	font-size: 16px;
+	text-align: left;
+	background: transparent;
+	border: none;
+	box-shadow: none;
+}
+
+table td {
+	height: 24px;
+	white-space: normal;
+	padding: 14px 24px !important;
+}
+
+table thead th:first-child {
+	border-left: none;
+	border-right: 1px solid rgba(228, 228, 230, 0.8);
+	border-top: none;
+	border-bottom: none;
+}
+
+table thead tr th {
+	padding-left: 24px;
+}
+
+table thead th {
+	vertical-align: middle;
+	text-align: left;
+	padding-left: 40px;
+}
+
+table thead th:not(:first-child) {
+	border-left: 1px solid rgba(228, 228, 230, 0.8);
+	border-top: none;
+	border-bottom: none;
+}
+
+table tbody tr td:nth-child(2) .colorBlock {
+	display: inline;
+	height: 20px;
+	padding-left: 20px;
+	border: 1px solid rgb(204, 204, 204);
+	border-radius: 4px;
+	margin-right: 8px;
+}
+
+a {
+	color: rgb(0, 145, 255);
+	margin: 0px 3px;
+}
+
+a:hover {
+	text-decoration: underline;
+	transition: all 250ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+a:active,
+a:hover,
+a:focus {
+	outline: 0;
+}
+
+/*
+使用了Monokai Sublime的黑色主题皮肤，但是还存在样式冲突，需要自己修改
+这个样式只适合使用makedown编写的博客
+Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-license.org/
+*/
+pre {
+	/*控制代码不换行*/
+	white-space: pre;
+	word-wrap: normal;
+	font-size: 1em;
+}
+
+.hljs {
+	display: block;
+	overflow: auto;
+	padding: 1.3em 2em !important;
+	font-size: 16px !important;
+	background: #272822 !important;
+	color: #FFF;
+	max-height: 700px;
+	border: none;
+}
+
+.hljs,
+.hljs-tag,
+.hljs-subst {
+	color: #f8f8f2;
+}
+
+.hljs-strong,
+.hljs-emphasis {
+	color: #a8a8a2;
+}
+
+.hljs-bullet,
+.hljs-quote,
+.hljs-number,
+.hljs-regexp,
+.hljs-literal,
+.hljs-link {
+	color: #ae81ff;
+}
+
+.hljs-code,
+.hljs-title,
+.hljs-section,
+.hljs-selector-class {
+	color: #a6e22e;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-name,
+.hljs-attr {
+	color: #f92672;
+}
+
+.hljs-symbol,
+.hljs-attribute {
+	color: #66d9ef;
+}
+
+.hljs-params,
+.hljs-class .hljs-title {
+	color: #f8f8f2;
+}
+
+.hljs-string,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-selector-id,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-variable {
+	color: #e6db74;
+}
+
+.hljs-comment,
+.hljs-deletion,
+.hljs-meta {
+	color: #75715e;
+}
+
+/* 黑色主题makedown代码结束 */

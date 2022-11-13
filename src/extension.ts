@@ -86,14 +86,58 @@ class APIDocPanel {
 
 	private _update() {
 		const webview = this._panel.webview;
-		webview.html = this._getHtmlForWebview();
+		webview.html = this._getHtmlForWebview(webview);
 	}
 
-	private _getHtmlForWebview() {
+	private _getHtmlForWebview(webview: vscode.Webview) {
+		const nonce = getNonce();
 		const content = this._content;
-		const html = marked.parse(content);
+		const contentHtml = marked.parse(content);
+
+		// 基础
+		const baseScriptPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'media', 'base.js');
+		const baseScriptUri = webview.asWebviewUri(baseScriptPathOnDisk);
+		const styleBasePath = vscode.Uri.joinPath(this._extensionUri, 'media', 'base.css');
+		const styleBaseUri = webview.asWebviewUri(styleBasePath);
+
+		// 代码高亮
+		const highlightScriptPathOnDisk = vscode.Uri.joinPath(this._extensionUri, 'media', 'highlight.min.js');
+		const highlightScriptUri = webview.asWebviewUri(highlightScriptPathOnDisk);
+		const styleHighlightPath = vscode.Uri.joinPath(this._extensionUri, 'media', 'highlight.min.css');
+		const styleHighlightUri = webview.asWebviewUri(styleHighlightPath);
+
+		const html = `
+			<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset="UTF-8">
+
+				<!--
+					CSP策略：1.仅允许Https文件运行；2.仅仅允许插件目录文件运行；3.仅仅运行含有特殊的nonce
+				-->
+				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource} https:; script-src 'nonce-${nonce}';">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<link href="${styleHighlightUri}" rel="stylesheet">
+				<link href="${styleBaseUri}" rel="stylesheet">
+			</head>
+			<body>
+				${contentHtml}
+				<script nonce="${nonce}" src="${highlightScriptUri}"></script>
+				<script nonce="${nonce}" src="${baseScriptUri}"></script>
+			</body>
+			</html>
+		`;
 		return html;
 	}
+}
+
+function getNonce() {
+	let text = '';
+	const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	for (let i = 0; i < 32; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+	return text;
 }
 
 /**
