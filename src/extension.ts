@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const rootPath = (vscode.workspace.workspaceFolders && (vscode.workspace.workspaceFolders.length > 0))
 		? vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
 
-	// Samples of `window.registerTreeDataProvider`
+		
 	const jsDesignDocProvider = new DepNodeProvider(rootPath);
 	vscode.window.registerTreeDataProvider('jsDesignDocProvider', jsDesignDocProvider);
 	vscode.commands.registerCommand(openDocCommand, (docPath: string) => {
